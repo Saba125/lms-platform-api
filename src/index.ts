@@ -5,6 +5,9 @@ import helmet from "helmet"
 import morgan from "morgan"
 import rateLimiter from "express-rate-limit"
 import cookieParser from "cookie-parser"
+import router from "./routes/routes"
+import authMiddleware from "./middlewares/auth"
+import path from "path"
 // Load environment variables from .env file
 
 const app = express()
@@ -29,11 +32,15 @@ app.use(
 // Db Connect
 
 // Routes
+app.use(
+  "/movie-images",
+  express.static(path.join(__dirname, "../../public/movie-images"))
+)
+
+app.use("/api/v1", router)
 const PORT = process.env.PORT || 3000
 // Run app
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello world")
-})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
 })
