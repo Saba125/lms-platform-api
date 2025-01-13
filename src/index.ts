@@ -5,8 +5,7 @@ import helmet from "helmet"
 import morgan from "morgan"
 import rateLimiter from "express-rate-limit"
 import cookieParser from "cookie-parser"
-import router from "./routes/routes"
-import authMiddleware from "./middlewares/auth"
+// import router from "./routes/routes"
 import path from "path"
 // Load environment variables from .env file
 
@@ -32,12 +31,12 @@ app.use(
 // Db Connect
 
 // Routes
-app.use(
-  "/movie-images",
-  express.static(path.join(__dirname, "../../public/movie-images"))
-)
+// app.use(
+//   "/movie-images",
+//   express.static(path.join(__dirname, "../../public/movie-images"))
+// )
 
-app.use("/api/v1", router)
+// app.use("/api/v1", router)
 const PORT = process.env.PORT || 3000
 // Run app
 
