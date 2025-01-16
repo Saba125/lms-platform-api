@@ -9,6 +9,12 @@ enum Roles {
   Student
 }
 
+enum Difficulty {
+  medium
+  hard
+  easy
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,10 +25,51 @@ datasource db {
 }
 
 model User {
-  id       Int    @default(autoincrement())
-  email    String @unique
-  role     Roles
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  role     Roles    @default(Student)
   password String
+  Course   Course[]
 
   @@map("users")
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  category    String
+  user_id     Int
+  user        User     @relation(fields: [user_id], references: [id])
+  createdAt   DateTime @default(now())
+  Lesson      Lesson[]
+
+  @@map("courses")
+}
+
+model Lesson {
+  id        Int     @id @default(autoincrement())
+  title     String
+  videoUrl  String?
+  duration  Float
+  content   String
+  course_id Int
+  course    Course  @relation(fields: [course_id], references: [id])
+  Quiz      Quiz[]
+
+  @@map("lessons")
+}
+
+model Quiz {
+  id             Int        @id @default(autoincrement())
+  question       String
+  options        Json
+  correct_answer String
+  difficulty     Difficulty
+  category       String
+  lessonId       Int
+  lesson         Lesson     @relation(fields: [lessonId], references: [id])
+
+  @@map("quizes")
 }

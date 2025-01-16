@@ -5,8 +5,10 @@ import helmet from "helmet"
 import morgan from "morgan"
 import rateLimiter from "express-rate-limit"
 import cookieParser from "cookie-parser"
-// import router from "./routes/routes"
+import router from "./routes/routes"
 import path from "path"
+import authMiddleware from "./middlewares/auth"
+import adminMiddleware from "./middlewares/permission"
 // Load environment variables from .env file
 
 const app = express()
@@ -29,14 +31,12 @@ app.use(
   })
 )
 // Db Connect
+// Serve static files
+app.use("/images", express.static(path.join(__dirname, "../../public/images")))
+app.use("/videos", express.static(path.join(__dirname, "../../public/videos")))
 
 // Routes
-// app.use(
-//   "/movie-images",
-//   express.static(path.join(__dirname, "../../public/movie-images"))
-// )
-
-// app.use("/api/v1", router)
+app.use("/api/v1", router)
 const PORT = process.env.PORT || 3000
 // Run app
 
